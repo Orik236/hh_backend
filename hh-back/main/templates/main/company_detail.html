@@ -1,0 +1,63 @@
+{% extends "main/base.html" %}
+
+{% block title %}
+Company Detail
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title">{{company.name}}</h1>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Город</td>
+                            <td>{{company.city}}</td>
+                        </tr>
+                        <tr>
+                            <td>Адресс</td>
+                            <td>{{company.address}}</td>
+                        </tr>
+                        <tr>
+                            <td>Описание</td>
+                            <td>{{company.description}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% if vacancies|length > 0 %}
+<div class="row">
+    <div class="col-sm">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="text-center">Вакансии</h6>
+                {% for vacancy in vacancies %}
+                <p>Вакансия: <a href="{% url 'main:vacancy_detail' vacancy.pk %}">{{vacancy.name}}</a>
+                    <br>Описание: {{vacancy.description}}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="row">
+    <div class="col-sm">
+        <div class="card">
+            <div class="card-body">
+              <form class="form" enctype="multipart/form-data" method="post">
+                  {% csrf_token %}
+                  <input class="form-control mx-auto" name="name" placeholder="Название вакансии" style="width:50%" type="text">
+                  <input class="form-control mx-auto" name="description" placeholder="Описание" style="width:50%" type="text">
+                  <input class="form-control mx-auto" name="salary" style="width:50%" type="int">
+                  <input class="btn btn-primary d-block mx-auto" style="width:50%" type="submit" value="Создать вакансию">
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

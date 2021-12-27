@@ -23,7 +23,7 @@ class Company(models.Model):
 class Vacancy(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название Вакансии")
     description = models.TextField(verbose_name="Описание")
-    salary = models.FloatField(default=0, null=True, verbose_name="Зарплата")
+    salary = models.IntegerField(default=0, null=True, verbose_name="Зарплата")
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
     def to_json(self):

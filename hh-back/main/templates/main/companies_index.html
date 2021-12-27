@@ -1,0 +1,38 @@
+{% extends "main/base.html" %}
+
+{% block title %}
+Companies Index
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="text-center display-4">Companies</h1>
+                {% if companies %}
+                    {% for company in companies %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="card-title">
+                                <a href="{% url 'main:company_detail' company.pk %}">{{company.name}}</a>
+                            </h1>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>Описание</td>
+                                        <td>{{company.description}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center">Нет вакансий</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

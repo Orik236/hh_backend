@@ -1,10 +1,13 @@
-from django.http.response import JsonResponse
+from django.http.response import JsonResponse, HttpResponsePermanentRedirect
+from django.shortcuts import render, redirect
+from django.urls import reverse
+
+from .forms import VacancyForm
 from .models import *
-from django.shortcuts import render
 
 
 def main_page(request):
-    return render(request, "main/index.html", {})
+    return HttpResponsePermanentRedirect("/main/vacancies/")
 
 
 def authorize(request):
@@ -13,56 +16,38 @@ def authorize(request):
 
 def companies_list(request):
     companies = Company.objects.all()
-    comp_json = [each.to_json() for each in companies]
-    return JsonResponse(comp_json, safe=False)
+    return render(request, "main/companies_index.html", {'companies': companies})
 
 
-def companies_detail(request, comp_id):
+def company_detail_page(request, comp_id):
     try:
-        companies = Company.objects.get(id=comp_id)
+        company = Company.objects.get(id=comp_id)
+        vacancies = Vacancy.objects.filter(company__pk=comp_id)
+        if request.method == 'POST':
+            d = {
+                'name': request.POST['name'],
+                'description': request.POST['description'],
+                'salary': request.POST['salary'],
+                'company': company
+            }
+            vacancy_form = VacancyForm(d)
+            if vacancy_form.is_valid():
+                vacancy_form.save()
+            return redirect(reverse('main:company_detail', args=(comp_id,)))
     except Company.DoesNotExist as e:
         return JsonResponse({'Error': str(e)})
-    return JsonResponse(companies.to_json())
+    return render(request, "main/company_detail.html", {'company': company, 'vacancies': vacancies})
 
 
-def comp_vac(request, comp_id):
-    try:
-        vacancies = Vacancy.objects.filter(company_id=comp_id)
-        vac_json = [vacancy.to_json() for vacancy in vacancies]
-    except Company.DoesNotExist as e:
-        return JsonResponse({'Error': str(e)})
-    if vacancies:
-        return JsonResponse(vac_json, safe=False)
-    else:
-        return JsonResponse('Company does\'t exists', safe=False)
-
-
-def vac_list(request):
+def vacancies_list(request):
     vacancies = Vacancy.objects.all()
-    vac_json = [vacancy.to_json() for vacancy in vacancies]
-    if vac_json:
-        return JsonResponse(vac_json, safe=False)
-    else:
-        return JsonResponse("No vacancies!", safe=False)
+    return render(request, "main/vacancies_index.html", {'vacancies': vacancies})
 
 
-def vac_detail(request, vac_id):
+def vacancy_detail(request, vac_id):
     try:
-        vac = Vacancy.objects.get(id=vac_id)
+        vacancy = Vacancy.objects.get(id=vac_id)
     except Vacancy.DoesNotExist as e:
         return JsonResponse({'error': str(e)})
 
-    return JsonResponse(vac.to_json())
-
-
-def sort_salary(vacant):
-    return vacant.salary
-
-
-def vacancies_top(request):
-    vacancies = Vacancy.objects.all().order_by('-salary')[:10]
-    vacant_json = [vacancy.to_json() for vacancy in vacancies]
-    if vacant_json:
-        return JsonResponse(vacant_json, safe=False)
-    else:
-        return JsonResponse("No vacancy available, check for updates later!", safe=False)
+    return render(request, 'main/vacancy_detail.html', {'vacancy': vacancy})
