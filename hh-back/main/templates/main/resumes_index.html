@@ -1,7 +1,7 @@
 {% extends "main/base.html" %}
 
 {% block title %}
-Vacancies index
+Resumes index
 {% endblock %}
 
 {% block content %}
@@ -9,19 +9,22 @@ Vacancies index
     <div class="col">
         <div class="card">
             <div class="card-body">
-                <h1 class="text-center display-4">Vacancies</h1>
-                {% if vacancies %}
-                    {% for vacancy in vacancies %}
+                <h1 class="text-center display-4">Resumes</h1>
+                {% if resumes %}
+                    {% for resume in resumes %}
                     <div class="card">
                         <div class="card-body">
                             <h1 class="card-title">
-                                <a href="{% url 'main:vacancy_detail' vacancy.pk %}">{{vacancy.name}}</a>
+                                <a href="{% url 'main:resume_detail' resume.pk %}">{{resume.name}}</a>
                             </h1>
                             <table class="table">
                                 <tbody>
                                     <tr>
+                                        <td>{{resume.description}}</td>
+                                    </tr>
+                                    <tr>
                                         <td>Описание</td>
-                                        <td>{{vacancy.description}}</td>
+                                        <td>{{resume.description}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -29,7 +32,7 @@ Vacancies index
                     </div>
                     {% endfor %}
                 {% else %}
-                    <p class="text-center">Нет вакансий</p>
+                    <p class="text-center">Нет резюме</p>
                 {% endif %}
             </div>
         </div>

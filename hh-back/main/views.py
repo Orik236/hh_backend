@@ -51,3 +51,17 @@ def vacancy_detail(request, vac_id):
         return JsonResponse({'error': str(e)})
 
     return render(request, 'main/vacancy_detail.html', {'vacancy': vacancy})
+
+
+def resumes_list(request):
+    resumes = Resumes.objects.all()
+    return render(request, "main/resumes_index.html", {'resumes': resumes})
+
+
+def resume_detail(request, res_id):
+    try:
+        resume = Resumes.objects.get(id=res_id)
+    except Resumes.DoesNotExist as e:
+        return JsonResponse({'error': str(e)})
+
+    return render(request, 'main/resume_detail.html', {'resume': resume})

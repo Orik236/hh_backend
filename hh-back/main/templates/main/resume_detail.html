@@ -1,0 +1,48 @@
+{% extends "main/base.html" %}
+
+{% block title %}
+Resume Detail
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title">{{resume.name}}</h1>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>{{resume.job_title}}</td>
+                        </tr>
+                        <tr>
+                            <td>Зарплата</td>
+                            <td>{{resume.expected_salary}}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>{{resume.email}}</td>
+                        </tr>
+                        <tr>
+                            <td>Город проживания</td>
+                            <td>{{resume.city}}</td>
+                        </tr>
+                        <tr>
+                            <td>Стаж работы</td>
+                            <td>{{resume.job_experience}}</td>
+                        </tr>
+                        <tr>
+                            <td>Образование</td>
+                            <td>{{resume.study_degree}}</td>
+                        </tr>
+                        <tr>
+                            <td>Описание</td>
+                            <td>{{resume.description}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
