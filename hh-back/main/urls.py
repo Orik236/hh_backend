@@ -11,5 +11,6 @@ urlpatterns = [
     path('companies/<int:comp_id>/', company_detail_page, name="company_detail"),
     path('vacancies/', vacancies_list, name="vacancies_page"),
     path('vacancies/<int:vac_id>/', vacancy_detail, name="vacancy_detail"),
-    path('resumes/', resumes_list, name="resumes_page")
+    path('resumes/', resumes_list, name="resumes_page"),
+    path('resumes/<int:res_id>/', resume_detail, name="resume_detail")
 ] + static(settings.MEDIA_URL, document_roo=settings.MEDIA_ROOT)

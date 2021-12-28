@@ -26,8 +26,8 @@ class Resumes(models.Model):
     job_title = models.CharField(max_length=200, verbose_name="Специальность")
     city = models.CharField(max_length=100, verbose_name="Город проживания")
     expected_salary = models.IntegerField(default=0, null=True, verbose_name="Ожидаемая зарплата")
-    job_experience = models.IntegerField(default=0, verbose_name="Опыт работы в месяцах")
-    study_degree = models.TextField(null=True, verbose_name="Образование")
+    job_experience = models.IntegerField(default=0, verbose_name="Опыт работы в годах")
+    study_degree = models.CharField(max_length=200, null=True, verbose_name="Образование")
     description = models.TextField(null=True, verbose_name="Описание себя")
     email = models.CharField(max_length=200, verbose_name='Email', null=True)
 
